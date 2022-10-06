@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "collections": "^5.1.13",
-    "csv-generate": "^4.2.0"
+    "csv-generate": "^4.2.0",
+    "fast-csv": "^4.3.6"
   },
   "devDependencies": {
     "@types/collections": "^5.1.2"

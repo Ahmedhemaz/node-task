@@ -1,29 +1,23 @@
 import Heap from "collections/heap.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import csv from "fast-csv";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const input = [
-  ["ID1", "Minneapolis", "shoes", 2, "Air"],
-  ["ID2", "Chicago", "shoes", 1, "Air"],
-  ["ID3", "Central Department Store", "shoes", 5, "BonPied"],
-  ["ID4", "Quail Hollow", "forks", 3, "Pfitzcraft"],
-];
-
-const input2 = [
-  ["ID944806", "Willard Vista", "Intelligent Copper Knife", 3, "Hilll-Gorczany"],
-  ["ID644525", "Roger Centers", "Intelligent Copper Knife", 1, "Kunze-Bernhard"],
-  ["ID348204", "Roger Centers", "Small Granite Shoes", 4, "Rowe and Legros"],
-  ["ID710139", "Roger Centers", "Intelligent Copper Knife", 4, "Hilll-Gorczany"],
-  ["ID426632", "Willa Hollow", "Intelligent Copper Knife", 4, "Hilll-Gorczany"],
-];
-
+const input = [];
 const product_to_order = {};
 const brands_to_order = {};
 const product_name_brand_leaderboard = {};
+const path_name = process.argv[2];
+
 const aggregate_product_names_of_order = (product_to_order, row) => {
   const product_name = row[2];
   if (product_to_order[product_name]) {
-    product_to_order[product_name] += row[3];
+    product_to_order[product_name] += +row[3];
   } else {
-    product_to_order[product_name] = row[3];
+    product_to_order[product_name] = +row[3];
   }
 };
 
@@ -65,8 +59,26 @@ const generate_brands_product_name_board = (brands_to_order) => {
   }
 };
 
-init_brands_to_order(brands_to_order, input2);
-calculate_product_to_order_ratio(input2);
-generate_brands_product_name_board(brands_to_order);
-console.log(product_to_order);
-console.log(product_name_brand_leaderboard);
+const generate_csv_file = (path_name, data) => {
+  const csvFile1 = fs.createWriteStream(path_name);
+  const csvStream = csv.format({ headers: true });
+  csvStream.pipe(csvFile1).on("end", () => process.exit());
+  data.forEach((element) => {
+    csvStream.write(element);
+  });
+  csvStream.end();
+};
+
+fs.createReadStream(path.resolve(__dirname, path_name))
+  .pipe(csv.parse({ headers: false }))
+  .on("error", (error) => console.error(error))
+  .on("data", (row) => {
+    input.push(row);
+  })
+  .on("end", () => {
+    init_brands_to_order(brands_to_order, input);
+    calculate_product_to_order_ratio(input);
+    generate_brands_product_name_board(brands_to_order);
+    generate_csv_file(`0_${path_name}`, Object.entries(product_to_order));
+    generate_csv_file(`1_${path_name}`, Object.entries(product_name_brand_leaderboard));
+  });
