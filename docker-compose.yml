@@ -8,6 +8,8 @@ services:
       - ./:/usr/app/
     environment:
       - NODE_ENV=development
+    env_file:
+      - ./.env.development
     expose:
       - '3000'
     ports:
@@ -15,3 +17,23 @@ services:
     container_name: tasks-api
     entrypoint: ./development-entry.sh
     command: [/usr/app/development-entry.sh]
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    expose:
+      - '3306'
+    ports:
+      - '3306:3306'
+    env_file:
+      - ./.env.development
+    volumes:
+      - db_data:/var/lib/mysql
+    container_name: tasks-db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+volumes:
+  db_data: {}
