@@ -12,8 +12,8 @@ export class ProductsService {
     private productsRepository: Repository<Product>,
   ) {}
 
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async create(createProductDto: CreateProductDto) {
+    return await this.productsRepository.save(createProductDto);
   }
 
   findAll(): Promise<Product[]> {
@@ -24,8 +24,9 @@ export class ProductsService {
     return this.productsRepository.findOneBy({ id });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    await this.productsRepository.update(id, updateProductDto);
+    return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
