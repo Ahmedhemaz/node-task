@@ -1,0 +1,17 @@
+version: '3'
+services:
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    volumes:
+      - ./:/usr/app/
+    environment:
+      - NODE_ENV=development
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    container_name: tasks-api
+    entrypoint: ./development-entry.sh
+    command: [/usr/app/development-entry.sh]
