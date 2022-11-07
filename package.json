@@ -1,0 +1,22 @@
+{
+  "name": "task",
+  "version": "1.0.0",
+  "description": "1- go to [task1 branch](https://github.com/Ahmedhemaz/node-task/tree/task1)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ahmedhemaz/node-task.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ahmedhemaz/node-task/issues"
+  },
+  "homepage": "https://github.com/Ahmedhemaz/node-task#readme",
+  "dependencies": {
+    "pg": "^8.8.0"
+  }
+}
