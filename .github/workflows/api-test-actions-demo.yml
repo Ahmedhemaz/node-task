@@ -25,6 +25,9 @@ jobs:
       - name: update docker image
         run: apk --no-cache --update --available upgrade
 
+      - name: Install pg connector
+        run: apk add postgresql-client
+
       # Performs a clean installation of all dependencies in the `package.json` file
       # For more information, see https://docs.npmjs.com/cli/ci.html
       - name: Install dependencies
