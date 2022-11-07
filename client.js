@@ -4,7 +4,7 @@ const pgclient = new Client({
   host: process.env.POSTGRES_HOST,
   port: process.env.POSTGRES_PORT,
   user: "admin",
-  password: 11,
+  password: "11",
   database: "es",
 });
 
