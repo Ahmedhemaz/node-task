@@ -43,3 +43,4 @@ jobs:
           POSTGRES_HOST: postgres
           # The default PostgreSQL port
           POSTGRES_PORT: 5432
+          S3_ACCESS_KEY_ID: SADFGASDF34124DF
